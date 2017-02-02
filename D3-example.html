@@ -3,11 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>D3 exercise</title>
-    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
 <h2>Bar graph example</h2>
 <script>
+// color schema: ['#eeeeee', '#5cc85c', '#ffd279', '#fd908a', '#85d5df']
+
 /*    d3.select("p").text("Hello world!");
     d3.select("body")
             .append('h2')
@@ -16,13 +18,13 @@
     var dataArray =[20, 40, 50, 60]; //last one out of range b/c canvas width
 
     var width = 500;
-    var height = 500;
+    var height = 300;
     var widthScale = d3.scale.linear()
             .domain([0,60]) //original min/max
             .range([0,width]); //adjust with width
     var color = d3.scale.linear()
             .domain([20,60])
-            .range(['green', 'yellow']);
+            .range(['#fd908a', '#85d5df']);
 
     var axis = d3.svg.axis()
             .ticks(5)
@@ -45,10 +47,10 @@
                 return color(d);
             })
             .attr('y', function(d,i){
-                return i*100;
+                return i*70;
             });
     canvas.append('g')
-        .attr('transform', 'translate(0,400)')
+        .attr('transform', 'translate(0,275)')
         .call(axis);
     /*    var data =[10];
     var cir = canvas.selectAll('circle')
@@ -75,9 +77,6 @@
             .attr('width',100)
             .attr('height',50);*/
 
-
-
-
 </script>
 
 <h2>Path example</h2>
@@ -90,15 +89,15 @@
             .attr('transform', 'translate(0,0)');
     var data = [
         {x:40, y:100},
-        {x:80, y:130},
+        {x:80, y:120},
         {x:120, y:170},
         {x:160, y:200},
         {x:200, y:270},
         {x:240, y:300},
         {x:280, y:270},
-        {x:320, y:220},
-        {x:360, y:160},
-        {x:400, y:130}
+        {x:340, y:250},
+        {x:320, y:130},
+        {x:400, y:100}
     ];
 
     var group = canvas2.append('g')
@@ -111,11 +110,11 @@
             .enter()
             .append('path')
             .attr('d', line)
-            .attr('fill', '#ccc')
-            .attr('stroke', '#1fc')
-            .attr('stroke-width', 5);
+            .attr('fill', '#5cc85c')
+            .attr('stroke', '#85d5df')
+            .attr('stroke-width', 10);
 </script>
-<h2>pie example</h2>
+<h2>Pie example</h2>
 <script>
     var canvas3 = d3.select('body')
             .append('svg')
@@ -125,7 +124,7 @@
             .attr('transform', 'translate(0,0)');
 
     var group2 = canvas3.append('g')
-            .attr('transform', 'translate(100,100)');
+            .attr('transform', 'translate(110,110)');
     var r = 100;
     var p = Math.PI*2;
     var arc = d3.svg.arc()
@@ -135,9 +134,9 @@
             .endAngle(p-1);
     group2.append('path')
             .attr('d', arc)
-            .attr('fill', '#2df')
-            .attr('stroke', '#2af')
-            .attr('stroke-width', 2);
+            .attr('fill', '#ffd279')
+            .attr('stroke', '#fd908a')
+            .attr('stroke-width', 5);
 </script>
 
 <h2>A donut chart</h2>
@@ -151,11 +150,11 @@
     var data =[10,50,80];
     var r = 150;
     var color = d3.scale.ordinal()
-            .range(['#7ee', '#ee7','#e7e']);
+            .range(['#fd908a', '#ffd279','#85d5df']);
     var group = canvas4.append('g')
             .attr('transform', 'translate(150,150)');
     var arc = d3.svg.arc()
-            .innerRadius(100)
+            .innerRadius(80)
             .outerRadius(r);
     var pie = d3.layout.pie()
             .value( function(d){ return d;});
@@ -178,6 +177,7 @@
 <h2>Tree layout</h2>
 
 <script>
+    var height = 400;
     var canvas5 = d3.select('body')
             .append('svg')
             .attr('width',width)
@@ -199,7 +199,7 @@
                 });
         node.append('circle')
                 .attr('r', 5)
-                .attr('fill', '#abb');
+                .attr('fill', '#fd908a');
         node.append('text')
                 .text(function(d){ return d.name; });
         var diagonal = d3.svg.diagonal()
@@ -210,7 +210,7 @@
                 .append('path')
                 .attr('class', 'link')
                 .attr('fill', 'none')
-                .attr('stroke','#adadad')
+                .attr('stroke','#5cc85c')
                 .attr('d', diagonal);
     });
 </script>
@@ -238,7 +238,7 @@
                     return 'translate(' + d.x +',' + d.y +')'; });
         node.append('circle')
                 .attr('r', function(d){ return d.r;})
-                .attr('fill', 'steelblue')
+                .attr('fill', '#85d5df')
                 .attr('opacity', 0.25)
                 .attr('stroke', '#adadad')
                 .attr('stroke-width', '2');
@@ -248,6 +248,7 @@
                 });
     });
 </script>
+
 <h2>Histogram layout </h2>
 <script>
     var width = 500,height = 500,padding=50;
@@ -287,7 +288,9 @@
                 .attr('y', function(d){ return 500-y(d.y); })
                 .attr('width', function(d){ return x(d.dx); })
                 .attr('height', function(d){ return y(d.y); })
-                .attr('fill', 'steelblue');
+                .attr('fill', '#85d5df')
+                .attr('stroke', '#eeeeee')
+                .attr('stroke-width', '1');;
         bars.append('text')
                 .attr('x', function(d){
                     return x(d.x);
@@ -295,13 +298,14 @@
                 .attr('y', function(d){
                     return 500- y(d.y);
                 })
-                .attr('dy', '20px')
+                .attr('dy', '30px')
                 .attr('dx', function(d){ return x(d.dx)/2 ;})
                 .attr('fill', '#fff')
                 .text( function(d){ return d.y; })
     });
 </script>
 
+<br/>
 <h2>Tree map</h2>
 <script>
     var color = d3.scale.category10();
@@ -348,7 +352,6 @@
                     return d.children? null: d.name;
                 })
     });
-
 </script>
 </body>
 </html>
